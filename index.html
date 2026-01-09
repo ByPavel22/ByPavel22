@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Digital Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;900&family=Manrope:wght@400;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #00f2ff;
+            --card: #121212;
+            --text: #ffffff;
+            --gray: #888;
+            --gradient: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; line-height: 1.6; overflow-x: hidden; }
+
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #112244 0%, #080808 70%);
+            z-index: -1;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(8,8,8,0.8); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-family: 'Unbounded'; font-weight: 900; font-size: 1.5rem; color: var(--accent); text-transform: uppercase; }
+        nav a { color: var(--text); text-decoration: none; margin-left: 25px; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+
+        /* --- HERO --- */
+        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 100px 0; }
+        .hero h1 { font-family: 'Unbounded'; font-size: clamp(2.5rem, 8vw, 6rem); line-height: 0.9; margin-bottom: 25px; }
+        .hero p { font-size: 1.4rem; color: var(--gray); max-width: 800px; margin-bottom: 40px; }
+
+        .stats-row { display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 50px; }
+        .stat-badge { background: var(--card); padding: 15px 30px; border-radius: 100px; border: 1px solid #222; display: flex; align-items: center; gap: 10px; }
+        .stat-badge i { color: var(--accent); font-size: 1.2rem; }
+
+        /* --- SKILLS SECTION --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .skill-item h4 { margin-bottom: 10px; font-family: 'Unbounded'; font-size: 0.9rem; }
+        .progress-bar { height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gradient); border-radius: 10px; transition: 1s ease-out; }
+
+        /* --- PROJECTS SECTION --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .project-card { background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: 0.4s; }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .project-thumb { width: 100%; height: 200px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #333; }
+        .project-info { padding: 30px; }
+        .project-info h3 { font-family: 'Unbounded'; margin-bottom: 10px; }
+        .project-tags { display: flex; gap: 10px; margin-top: 15px; }
+        .tag { font-size: 0.7rem; padding: 5px 12px; background: rgba(0,242,255,0.1); color: var(--accent); border-radius: 5px; }
+
+        /* --- FAQ SECTION --- */
+        .faq-item { background: var(--card); margin-bottom: 15px; border-radius: 15px; border: 1px solid #222; overflow: hidden; }
+        .faq-question { padding: 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
+        .faq-answer { padding: 0 25px 25px; color: var(--gray); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active i { transform: rotate(180deg); color: var(--accent); }
+
+        /* --- SETUP SECTION --- */
+        .setup-box { background: var(--card); padding: 50px; border-radius: 40px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; align-items: center; border: 1px solid #222; }
+        .spec-line { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid #222; }
+
+        /* --- SECTIONS SPACING --- */
+        section { padding: 120px 0; }
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Unbounded'; font-size: 3.5rem; margin-bottom: 10px; }
+        .section-header p { color: var(--gray); font-size: 1.1rem; }
+
+        /* --- FOOTER --- */
+        .social-btn { width: 60px; height: 60px; background: var(--card); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: 0.3s; border: 1px solid #222; color: white; text-decoration: none; }
+        .social-btn:hover { background: var(--accent); color: #000; transform: scale(1.1); }
+
+        @media (max-width: 900px) {
+            .setup-box { grid-template-columns: 1fr; }
+            .section-header h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">PORTFOLIO<span style="color:#fff">.</span></div>
+            <nav>
+                <a href="#about">Инфо</a>
+                <a href="#skills">Навыки</a>
+                <a href="#projects">Проекты</a>
+                <a href="#setup">Setup</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </header>
+
+        <section class="hero" id="about">
+            <div class="stats-row">
+                <div class="stat-badge"><i class="ri-eye-line"></i> <span id="visitor-count">0</span> визитов</div>
+                <div class="stat-badge"><i class="ri-map-pin-line"></i> Россия, Москва</div>
+                <div class="stat-badge"><i class="ri-user-line"></i> 18 лет</div>
+            </div>
+            <h1>Я СОЗДАЮ<br><span style="color: var(--accent)">DIGITAL</span> ОПЫТ.</h1>
+            <p>Full-stack разработчик и UI/UX дизайнер. Специализируюсь на создании высоконагруженных систем, ботов и интерфейсов нового поколения.</p>
+        </section>
+
+        <section id="skills">
+            <div class="section-header">
+                <h2>НАВЫКИ</h2>
+                <p>Технологии, которые я использую для реализации идей.</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h4>Python / Backend</h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <h4>JavaScript / React</h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <h4>UI/UX Design</h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <h4>Cyber Security</h4>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="section-header">
+                <h2>ПРОЕКТЫ</h2>
+                <p>Кейсы, которыми я горжусь.</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-thumb"><i class="ri-robot-line"></i></div>
+                    <div class="project-info">
+                        <h3>AI Assistant Bot</h3>
+                        <p>Телеграм бот с интеграцией GPT-4 для автоматизации клиентской поддержки.</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span><span class="tag">AI</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb"><i class="ri-shopping-bag-3-line"></i></div>
+                    <div class="project-info">
+                        <h3>NFT Marketplace</h3>
+                        <p>Дизайн и фронтенд-разработка платформы для торговли цифровым искусством.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span><span class="tag">Web3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="setup">
+            <div class="section-header">
+                <h2>МОЙ SETUP</h2>
+                <p>Железо, на котором рождается код.</p>
+            </div>
+            <div class="setup-box">
+                <div style="font-size: 8rem; color: #1a1a1a; text-align: center;"><i class="ri-macbook-line"></i></div>
+                <div class="setup-specs">
+                    <div class="spec-line"><span class="spec-label">Ноутбук</span><span class="spec-value">MacBook Pro M2</span></div>
+                    <div class="spec-line"><span class="spec-label">Оперативка</span><span class="spec-value">32GB RAM</span></div>
+                    <div class="spec-line"><span class="spec-label">Монитор</span><span class="spec-value">Samsung Odyssey G7</span></div>
+                    <div class="spec-line"><span class="spec-label">Мышь</span><span class="spec-value">Logitech MX Master 3</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="section-header">
+                <h2>FAQ</h2>
+                <p>Часто задаваемые вопросы.</p>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Берешь ли ты заказы на фриланс? <i class="ri-arrow-down-s-line"></i></div>
+                <div class="faq-answer">Да, я открыт для новых проектов. Обычно я работаю с интересными стартапами и долгосрочными заказами.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Какой твой основной стек? <i class="ri-arrow-down-s-line"></i></div>
+                <div class="faq-answer">Мой фаворит — Python (FastAPI/Django) для бэкенда и React для фронтенда.</div>
+            </div>
+        </section>
+
+        <footer id="contact" style="padding: 100px 0; border-top: 1px solid #222; text-align: center;">
+            <h2 style="font-family: 'Unbounded'; margin-bottom: 40px;">ЕСТЬ ПРОЕКТ?</h2>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 50px;">
+                <a href="#" class="social-btn"><i class="ri-telegram-fill"></i></a>
+                <a href="#" class="social-btn"><i class="ri-github-fill"></i></a>
+                <a href="#" class="social-btn"><i class="ri-instagram-line"></i></a>
+            </div>
+            <p style="color: var(--gray);">© 2026 DESIGNED BY [ТВОЕ ИМЯ]</p>
+        </footer>
+    </div>
+
+    <script>
+        // Счетчик визитов
+        let visits = localStorage.getItem('site_visits') || Math.floor(Math.random() * 1000);
+        visits = parseInt(visits) + 1;
+        localStorage.setItem('site_visits', visits);
+        document.getElementById('visitor-count').innerText = visits;
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
